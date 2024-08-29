@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>House Price Prediction</h1>
+        <form id="predictionForm">
+            <label for="area">Area (in square feet):</label>
+            <input type="number" id="area" name="area" required><br>
+
+            <label for="bedrooms">Number of Bedrooms:</label>
+            <input type="number" id="bedrooms" name="bedrooms" required><br>
+
+            <label for="bathrooms">Number of Bathrooms:</label>
+            <input type="number" id="bathrooms" name="bathrooms" required><br>
+
+            <label for="stories">Number of Stories:</label>
+            <input type="number" id="stories" name="stories" required><br>
+
+            <label for="mainroad">On Main Road (yes/no):</label>
+            <select id="mainroad" name="mainroad" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select><br>
+
+            <label for="guestroom">Has Guestroom (yes/no):</label>
+            <select id="guestroom" name="guestroom" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select><br>
+
+            <label for="basement">Has Basement (yes/no):</label>
+            <select id="basement" name="basement" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select><br>
+
+            <label for="hotwaterheating">Has Hot Water Heating (yes/no):</label>
+            <select id="hotwaterheating" name="hotwaterheating" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select><br>
+
+            <label for="airconditioning">Has Air Conditioning (yes/no):</label>
+            <select id="airconditioning" name="airconditioning" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select><br>
+
+            <label for="parking">Number of Parking Spaces:</label>
+            <input type="number" id="parking" name="parking" required><br>
+
+            <label for="prefarea">In Preferred Area (yes/no):</label>
+            <select id="prefarea" name="prefarea" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select><br>
+
+            <label for="furnishingstatus">Furnishing Status:</label>
+            <select id="furnishingstatus" name="furnishingstatus" required>
+                <option value="furnished">Furnished</option>
+                <option value="semi-furnished">Semi-Furnished</option>
+                <option value="unfurnished">Unfurnished</option>
+            </select><br>
+
+            <button type="submit">Predict</button>
+        </form>
+
+        <div id="predictionResult" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#predictionForm').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '/predict',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        if (response.error) {
+                            $('#predictionResult').html('<p style="color: red;">Error: ' + response.error + '</p>');
+                        } else {
+                            $('#predictionResult').html('<h2>Predicted House Price: ' + response.predicted_price + '</h2>');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
