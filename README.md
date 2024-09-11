@@ -4,10 +4,9 @@ A Flask web application that predicts house prices based on various input featur
 
 ![Project Logo](resources/view.jpg)
 
-## Live Hosted Link:
-    '''bash
-    https://house-price-predictor-web-app.onrender.com/
-    '''
+## Demo
+
+You can view a live demo of the application [here](https://house-price-predictor-web-app.onrender.com/).
 
 ## Features
 
@@ -15,9 +14,7 @@ A Flask web application that predicts house prices based on various input featur
 - User-friendly interface for inputting data and viewing predictions.
 - Integrated with a pre-trained machine learning model for accurate predictions.
 
-## Demo
 
-You can view a live demo of the application [here](#).
 
 ## Installation
 
