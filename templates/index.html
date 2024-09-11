@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+
 <body background="/static/images/price.png">
     <div class="container">
         <h1>House Price Prediction</h1>
@@ -76,14 +78,14 @@
     </div>
 
     <script>
-        $(document).ready(function() {
-            $('#predictionForm').on('submit', function(e) {
+        $(document).ready(function () {
+            $('#predictionForm').on('submit', function (e) {
                 e.preventDefault();
                 $.ajax({
                     url: '/predict',
                     type: 'POST',
                     data: $(this).serialize(),
-                    success: function(response) {
+                    success: function (response) {
                         if (response.error) {
                             $('#predictionResult').html('<p style="color: red;">Error: ' + response.error + '</p>');
                         } else {
@@ -95,4 +97,5 @@
         });
     </script>
 </body>
+
 </html>
