@@ -76,26 +76,6 @@
 
         <div id="predictionResult" style="margin-top: 20px;"></div>
     </div>
-
-    <script>
-        $(document).ready(function () {
-            $('#predictionForm').on('submit', function (e) {
-                e.preventDefault();
-                $.ajax({
-                    url: '/predict',
-                    type: 'POST',
-                    data: $(this).serialize(),
-                    success: function (response) {
-                        if (response.error) {
-                            $('#predictionResult').html('<p style="color: red;">Error: ' + response.error + '</p>');
-                        } else {
-                            $('#predictionResult').html('<h2>Predicted House Price: ' + response.predicted_price + '</h2>');
-                        }
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 
 </html>
