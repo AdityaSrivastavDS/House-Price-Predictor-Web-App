@@ -23,7 +23,7 @@ To run the application locally, follow these steps:
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/yourusername/house-price-predictor.git
+    git clone https://github.com/AdityaSrivastavDS/House-Price-Predictor-Web-App
     cd house-price-predictor
     ```
 
