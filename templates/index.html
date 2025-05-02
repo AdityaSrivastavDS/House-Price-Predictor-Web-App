@@ -7,75 +7,170 @@
     <title>House Price Prediction</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 
-<body background="/static/images/price.png">
+<body>
+    <div id="canvas-container"></div>
+    
     <div class="container">
-        <h1>House Price Prediction</h1>
+        <h2>House Price Prediction</h2>
         <form id="predictionForm">
-            <label for="area">Area (in square feet):</label>
-            <input type="number" id="area" name="area" required><br>
+            <div class="input-group">
+                <label for="area">Area (in square feet)</label>
+                <input type="number" id="area" name="area" required>
+            </div>
 
-            <label for="bedrooms">Number of Bedrooms:</label>
-            <input type="number" id="bedrooms" name="bedrooms" required><br>
+            <div class="input-group">
+                <label for="bedrooms">Number of Bedrooms</label>
+                <input type="number" id="bedrooms" name="bedrooms" required>
+            </div>
 
-            <label for="bathrooms">Number of Bathrooms:</label>
-            <input type="number" id="bathrooms" name="bathrooms" required><br>
+            <div class="input-group">
+                <label for="bathrooms">Number of Bathrooms</label>
+                <input type="number" id="bathrooms" name="bathrooms" required>
+            </div>
 
-            <label for="stories">Number of Stories:</label>
-            <input type="number" id="stories" name="stories" required><br>
+            <div class="input-group">
+                <label for="stories">Number of Stories</label>
+                <input type="number" id="stories" name="stories" required>
+            </div>
 
-            <label for="mainroad">On Main Road (yes/no):</label>
-            <select id="mainroad" name="mainroad" required>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-            </select><br>
+            <div class="input-group">
+                <label for="mainroad">On Main Road</label>
+                <select id="mainroad" name="mainroad" required>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
 
-            <label for="guestroom">Has Guestroom (yes/no):</label>
-            <select id="guestroom" name="guestroom" required>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-            </select><br>
+            <div class="input-group">
+                <label for="guestroom">Has Guestroom</label>
+                <select id="guestroom" name="guestroom" required>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
 
-            <label for="basement">Has Basement (yes/no):</label>
-            <select id="basement" name="basement" required>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-            </select><br>
+            <div class="input-group">
+                <label for="basement">Has Basement</label>
+                <select id="basement" name="basement" required>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
 
-            <label for="hotwaterheating">Has Hot Water Heating (yes/no):</label>
-            <select id="hotwaterheating" name="hotwaterheating" required>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-            </select><br>
+            <div class="input-group">
+                <label for="hotwaterheating">Has Hot Water Heating</label>
+                <select id="hotwaterheating" name="hotwaterheating" required>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
 
-            <label for="airconditioning">Has Air Conditioning (yes/no):</label>
-            <select id="airconditioning" name="airconditioning" required>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-            </select><br>
+            <div class="input-group">
+                <label for="airconditioning">Has Air Conditioning</label>
+                <select id="airconditioning" name="airconditioning" required>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
 
-            <label for="parking">Number of Parking Spaces:</label>
-            <input type="number" id="parking" name="parking" required><br>
+            <div class="input-group">
+                <label for="parking">Number of Parking Spaces</label>
+                <input type="number" id="parking" name="parking" required>
+            </div>
 
-            <label for="prefarea">In Preferred Area (yes/no):</label>
-            <select id="prefarea" name="prefarea" required>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-            </select><br>
+            <div class="input-group">
+                <label for="prefarea">In Preferred Area</label>
+                <select id="prefarea" name="prefarea" required>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
 
-            <label for="furnishingstatus">Furnishing Status:</label>
-            <select id="furnishingstatus" name="furnishingstatus" required>
-                <option value="furnished">Furnished</option>
-                <option value="semi-furnished">Semi-Furnished</option>
-                <option value="unfurnished">Unfurnished</option>
-            </select><br>
+            <div class="input-group">
+                <label for="furnishingstatus">Furnishing Status</label>
+                <select id="furnishingstatus" name="furnishingstatus" required>
+                    <option value="furnished">Furnished</option>
+                    <option value="semi-furnished">Semi-Furnished</option>
+                    <option value="unfurnished">Unfurnished</option>
+                </select>
+            </div>
 
-            <button type="submit">Predict</button>
+            <button type="submit" class="btn">Predict Price</button>
         </form>
 
-        <div id="predictionResult" style="margin-top: 20px;"></div>
+        <div id="predictionResult" class="prediction-result"></div>
     </div>
+
+    <script>
+        // Three.js Background Animation
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Create floating 3D objects
+        const objects = [];
+        const geometry = new THREE.IcosahedronGeometry(1, 0);
+        const material = new THREE.MeshPhongMaterial({
+            color: 0x00f2fe,
+            transparent: true,
+            opacity: 0.6,
+            shininess: 100
+        });
+
+        for (let i = 0; i < 15; i++) {
+            const mesh = new THREE.Mesh(geometry, material.clone());
+            mesh.position.set(
+                Math.random() * 40 - 20,
+                Math.random() * 40 - 20,
+                Math.random() * 40 - 20
+            );
+            mesh.scale.set(
+                Math.random() * 2 + 1,
+                Math.random() * 2 + 1,
+                Math.random() * 2 + 1
+            );
+            scene.add(mesh);
+            objects.push(mesh);
+        }
+
+        // Add lights
+        const ambientLight = new THREE.AmbientLight(0x404040);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0x00f2fe, 1);
+        directionalLight.position.set(1, 1, 1);
+        scene.add(directionalLight);
+
+        camera.position.z = 30;
+
+        // Animation
+        function animate() {
+            requestAnimationFrame(animate);
+
+            objects.forEach(obj => {
+                obj.rotation.x += 0.01;
+                obj.rotation.y += 0.01;
+                obj.position.y += Math.sin(Date.now() * 0.001) * 0.01;
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
 </body>
 
 </html>

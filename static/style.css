@@ -1,59 +1,168 @@
-body {
-    background-color: #5CB8E6;
-    background-position: center top;
-    background-repeat: no-repeat;
-    background-size: contain;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+:root {
+    --primary-color: #ffffff;
+    --secondary-color: #00f2fe;
+    --accent-color: #4facfe;
+    --text-color: #ffffff;
+    --background-color: #0a192f;
+    --card-bg: rgba(255, 255, 255, 0.1);
+    --glass-bg: rgba(255, 255, 255, 0.15);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: var(--background-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+    position: relative;
+}
+
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
 
 .container {
-    background: rgba(255, 255, 255, 0.9);  /* White background with some transparency */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    background: var(--glass-bg);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(10px);
+    max-width: 500px;
+    width: 90%;
+    margin: 2rem auto;
+    position: relative;
+    z-index: 1;
+    border: 1px solid var(--glass-border);
+    overflow-y: auto;
+    max-height: 90vh;
+    scrollbar-width: thin;
+    scrollbar-color: var(--secondary-color) transparent;
+}
+
+.container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.container::-webkit-scrollbar-thumb {
+    background-color: var(--secondary-color);
+    border-radius: 3px;
 }
 
 h2 {
-    margin-bottom: 20px;
-    color: #333;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    position: relative;
+    text-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+    border-radius: 3px;
 }
 
 .input-group {
-    margin-bottom: 15px;
-    text-align: left;
+    margin-bottom: 1.5rem;
+    position: relative;
 }
 
 .input-group label {
     display: block;
-    font-size: 14px;
-    color: #333;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 
 .input-group input,
 .input-group select {
     width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    background: var(--glass-bg);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 2px rgba(0, 242, 254, 0.2);
 }
 
 .btn {
-    background-color: #2980b9;
+    background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
     color: white;
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
 }
 
 .btn:hover {
-    background-color: #1f6391;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 242, 254, 0.4);
+}
+
+.prediction-result {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: var(--glass-bg);
+    border-radius: 8px;
+    color: var(--primary-color);
+    text-align: center;
+    font-size: 1.2rem;
+    animation: fadeIn 0.5s ease;
+    border: 1px solid var(--glass-border);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem;
+        width: 95%;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
 }
 
